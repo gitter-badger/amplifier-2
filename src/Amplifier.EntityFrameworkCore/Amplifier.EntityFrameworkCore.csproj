@@ -10,6 +10,10 @@
     <PackageTags>amplifier, saas, ef, aspnet core, multi tenancy, entity framework, toolkit</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Description>Entity Framework Core implementation for Amplifier -  .NET Core SaaS Application Toolkit.</Description>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Copyright />
+    <PackageProjectUrl>https://github.com/FabriDamazio/amplifier</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/FabriDamazio/amplifier</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,8 +14,9 @@ namespace Amplifier.AspNetCore.MultiTenancy
         /// <summary>
         /// Add TenantId shadow property to entities that implements IHaveTenant and IMayHaveTenant interfaces
         /// </summary>
+        /// <param name="modelBuilder"></param>
         /// <typeparam name="TEntity">Tenant entity</typeparam>
-        /// <param name="entitiesList">A list with all entities</param>
+        /// <param name="entitiesList">A list with all entities</param>        
         public static void MultiTenancy<TEntity>(this ModelBuilder modelBuilder, List<IMutableEntityType> entitiesList) where TEntity : class
         {
             foreach (var entityType in entitiesList)
@@ -42,13 +43,13 @@ namespace Amplifier.AspNetCore.MultiTenancy
         private static readonly MethodInfo SetNullableTenantShadowPropertyMethodInfo = typeof(ModelBuilderExtensions).GetMethods(BindingFlags.Public | BindingFlags.Static)
             .Single(t => t.IsGenericMethod && t.Name == "SetNullableTenantShadowProperty");
 
-        public static void SetTenantShadowProperty<T, TEntity>(ModelBuilder builder) where T : class, IHaveTenant where TEntity : class
+        private static void SetTenantShadowProperty<T, TEntity>(ModelBuilder builder) where T : class, IHaveTenant where TEntity : class
         {
             builder.Entity<T>().Property<int>("TenantId");
             builder.Entity<T>().HasOne<TEntity>().WithMany().HasForeignKey("TenantId").OnDelete(DeleteBehavior.Restrict);
         }
 
-        public static void SetNullableTenantShadowProperty<T, TEntity>(ModelBuilder builder) where T : class, IMayHaveTenant where TEntity : class
+        private static void SetNullableTenantShadowProperty<T, TEntity>(ModelBuilder builder) where T : class, IMayHaveTenant where TEntity : class
         {
             builder.Entity<T>().Property<int?>("TenantId");
             builder.Entity<T>().HasOne<TEntity>().WithMany().HasForeignKey("TenantId").OnDelete(DeleteBehavior.Restrict);
