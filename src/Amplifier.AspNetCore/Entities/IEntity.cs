@@ -6,6 +6,9 @@
     /// <typeparam name="TPrimaryKey"></typeparam>
     public interface IEntity<TPrimaryKey>
     {
+        /// <summary>
+        /// Unique entity identifier.
+        /// </summary>
         TPrimaryKey Id { get; set; }
     }
 }

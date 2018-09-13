@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Amplifier.AspNetCore.Auditing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -53,6 +55,57 @@ namespace Amplifier.AspNetCore.MultiTenancy
         {
             builder.Entity<T>().Property<int?>("TenantId");
             builder.Entity<T>().HasOne<TEntity>().WithMany().HasForeignKey("TenantId").OnDelete(DeleteBehavior.Restrict);
+        }
+
+        /// <summary>
+        /// Add auditing shadow property to entities that implements ISoftDelete and IFullAuditedEntity interfaces
+        /// </summary>
+        /// <typeparam name="TUser">Entity that represents an User</typeparam>
+        /// <param name="modelBuilder"></param>
+        /// <param name="entities">A list with all entities</param>
+        public static void Auditing<TUser>(this ModelBuilder modelBuilder, List<IMutableEntityType> entities) where TUser : class
+        {
+            foreach (var entityType in entities)
+            {
+                var type = entityType.ClrType;
+
+                if (typeof(ISoftDelete).IsAssignableFrom(type))
+                {
+                    var method = SetSoftDeleteShadowPropertyMethodInfo.MakeGenericMethod(type);
+                    method.Invoke(modelBuilder, new object[] { modelBuilder });
+                }
+
+                if (typeof(IFullAuditedEntity).IsAssignableFrom(type))
+                {
+                    var method = SetFullAuditingShadowPropertyPropertyMethodInfo.MakeGenericMethod(type, typeof(TUser));
+                    method.Invoke(modelBuilder, new object[] { modelBuilder });
+                }
+            }
+        }
+
+        private static readonly MethodInfo SetSoftDeleteShadowPropertyMethodInfo = typeof(ModelBuilderExtensions).GetMethods(BindingFlags.Public | BindingFlags.Static)
+            .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteShadowProperty");
+
+        private static readonly MethodInfo SetFullAuditingShadowPropertyPropertyMethodInfo = typeof(ModelBuilderExtensions).GetMethods(BindingFlags.Public | BindingFlags.Static)
+            .Single(t => t.IsGenericMethod && t.Name == "SetFullAuditingShadowProperty");
+
+        private static void SetSoftDeleteShadowProperty<T>(ModelBuilder builder) where T : class, ISoftDelete
+        {
+            builder.Entity<T>().Property<bool>("IsDeleted");
+        }
+
+        private static void SetFullAuditingShadowProperty<T, TUser>(ModelBuilder builder) where T : class, IFullAuditedEntity where TUser : class
+        {
+            builder.Entity<T>().Property<DateTime>("CreationTime");
+            builder.Entity<T>().Property<DateTime>("LastModificationTime");
+            builder.Entity<T>().Property<DateTime>("DeletionTime");
+            builder.Entity<T>().Property<string>("CreationUser");
+            builder.Entity<T>().Property<string>("LastModificationUser");
+            builder.Entity<T>().Property<string>("DeletionUser");
+
+            builder.Entity<T>().HasOne<TUser>().WithMany().HasForeignKey("CreationUser").OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<T>().HasOne<TUser>().WithMany().HasForeignKey("LastModificationUser").OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<T>().HasOne<TUser>().WithMany().HasForeignKey("DeletionUser").OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
