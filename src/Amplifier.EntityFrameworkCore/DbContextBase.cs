@@ -15,8 +15,8 @@ namespace Amplifier.EntityFrameworkCore
     /// <summary>
     /// Base class for all DbContext classes.
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    public class DbcontextBase<TKey> : DbContext where TKey : class
+    /// <typeparam name="TKey">Tenant Primary Key type</typeparam>
+    public class DbcontextBase<TKey> : DbContext
     {
         private readonly IUserSession<TKey> _userSession;
 
