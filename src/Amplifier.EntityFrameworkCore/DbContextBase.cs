@@ -25,7 +25,8 @@ namespace Amplifier.EntityFrameworkCore
         /// </summary>
         /// <param name="options"></param>
         /// <param name="userSession"></param>
-        public DbContextBase(DbContextOptions options, IUserSession<TKey> userSession)
+        public DbContextBase(DbContextOptions options, IUserSession<TKey> userSession) 
+            : base(options)
         {
             _userSession = userSession;
         }
@@ -45,11 +46,11 @@ namespace Amplifier.EntityFrameworkCore
         /// Add QueryFilters for auditing and soft delete.
         /// </summary>
         /// <param name="modelBuilder"></param>
-        /// <param name="entidades"></param>
+        /// <param name="entities">A list with all entities</param>
         protected void EnableTenantAndSoftDeleteFilters(ModelBuilder modelBuilder,
-                                                    List<IMutableEntityType> entidades)
+                                                    List<IMutableEntityType> entities)
         {
-            foreach (var entityType in entidades)
+            foreach (var entityType in entities)
             {
                 var type = entityType.ClrType;
 
