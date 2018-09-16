@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Fabri Damazio</Authors>
     <Description>.NET Core SaaS Application Toolkit.</Description>
@@ -12,6 +12,7 @@
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/FabriDamazio/amplifier</PackageProjectUrl>
     <RepositoryUrl>https://github.com/FabriDamazio/amplifier</RepositoryUrl>
+    <PackageReleaseNotes>Add automatic auditing</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
