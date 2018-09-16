@@ -77,12 +77,12 @@ namespace Amplifier.EntityFrameworkCore
         private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(DbContextBase<TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteAndTenantIdFilter");
 
-        private void SetSoftDeleteFilter<T>(ModelBuilder builder) where T : class, ISoftDelete
+        public void SetSoftDeleteFilter<T>(ModelBuilder builder) where T : class, ISoftDelete
         {
             builder.Entity<T>().HasQueryFilter(item => !EF.Property<bool>(item, "IsDeleted"));
         }
 
-        private void SetSoftDeleteAndTenantIdFilter<T>(ModelBuilder builder) where T : class, ISoftDelete, ITenantFilter
+        public void SetSoftDeleteAndTenantIdFilter<T>(ModelBuilder builder) where T : class, ISoftDelete, ITenantFilter
         {
             builder.Entity<T>().HasQueryFilter(
                 item => !EF.Property<bool>(item, "IsDeleted") &&

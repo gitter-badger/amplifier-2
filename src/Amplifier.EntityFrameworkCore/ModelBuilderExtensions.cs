@@ -1,4 +1,5 @@
 ﻿using Amplifier.AspNetCore.Auditing;
+using Amplifier.AspNetCore.MultiTenancy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Amplifier.AspNetCore.MultiTenancy
+namespace Amplifier.EntityFrameworkCore
 {
     /// <summary>
     /// Extension method for <see cref="ModelBuilder"/>
@@ -45,13 +46,13 @@ namespace Amplifier.AspNetCore.MultiTenancy
         private static readonly MethodInfo SetNullableTenantShadowPropertyMethodInfo = typeof(ModelBuilderExtensions).GetMethods(BindingFlags.Public | BindingFlags.Static)
             .Single(t => t.IsGenericMethod && t.Name == "SetNullableTenantShadowProperty");
 
-        private static void SetTenantShadowProperty<T, TEntity>(ModelBuilder builder) where T : class, IHaveTenant where TEntity : class
+        public static void SetTenantShadowProperty<T, TEntity>(ModelBuilder builder) where T : class, IHaveTenant where TEntity : class
         {
             builder.Entity<T>().Property<int>("TenantId");
             builder.Entity<T>().HasOne<TEntity>().WithMany().HasForeignKey("TenantId").OnDelete(DeleteBehavior.Restrict);
         }
 
-        private static void SetNullableTenantShadowProperty<T, TEntity>(ModelBuilder builder) where T : class, IMayHaveTenant where TEntity : class
+        public static void SetNullableTenantShadowProperty<T, TEntity>(ModelBuilder builder) where T : class, IMayHaveTenant where TEntity : class
         {
             builder.Entity<T>().Property<int?>("TenantId");
             builder.Entity<T>().HasOne<TEntity>().WithMany().HasForeignKey("TenantId").OnDelete(DeleteBehavior.Restrict);
@@ -90,12 +91,12 @@ namespace Amplifier.AspNetCore.MultiTenancy
         private static readonly MethodInfo SetFullAuditingShadowPropertyPropertyMethodInfo = typeof(ModelBuilderExtensions).GetMethods(BindingFlags.Public | BindingFlags.Static)
             .Single(t => t.IsGenericMethod && t.Name == "SetFullAuditingShadowProperty");
 
-        private static void SetSoftDeleteShadowProperty<T>(ModelBuilder builder) where T : class, ISoftDelete
+        public static void SetSoftDeleteShadowProperty<T>(ModelBuilder builder) where T : class, ISoftDelete
         {
             builder.Entity<T>().Property<bool>("IsDeleted");
         }
 
-        private static void SetFullAuditingShadowProperty<T, TUser, TKey>(ModelBuilder builder) where T : class, IFullAuditedEntity where TUser : class
+        public static void SetFullAuditingShadowProperty<T, TUser, TKey>(ModelBuilder builder) where T : class, IFullAuditedEntity where TUser : class
         {
             builder.Entity<T>().Property<DateTime>("CreationTime");
             builder.Entity<T>().Property<DateTime>("LastModificationTime");
