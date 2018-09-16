@@ -16,7 +16,7 @@ namespace Amplifier.EntityFrameworkCore
     /// Base class for all DbContext classes.
     /// </summary>
     /// <typeparam name="TKey">Tenant Primary Key type</typeparam>
-    public class DbcontextBase<TKey> : DbContext
+    public class DbContextBase<TKey> : DbContext
     {
         private readonly IUserSession<TKey> _userSession;
 
@@ -25,7 +25,7 @@ namespace Amplifier.EntityFrameworkCore
         /// </summary>
         /// <param name="options"></param>
         /// <param name="userSession"></param>
-        public DbcontextBase(DbContextOptions options, IUserSession<TKey> userSession)
+        public DbContextBase(DbContextOptions options, IUserSession<TKey> userSession)
         {
             _userSession = userSession;
         }
@@ -70,10 +70,10 @@ namespace Amplifier.EntityFrameworkCore
             }
         }
 
-        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(DbcontextBase<TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(DbContextBase<TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteFilter");
 
-        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(DbcontextBase<TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(DbContextBase<TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteAndTenantIdFilter");
 
         private void SetSoftDeleteFilter<T>(ModelBuilder builder) where T : class, ISoftDelete
