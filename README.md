@@ -1,7 +1,7 @@
 # amplifier
 Amplifier - .NET Core SaaS Application Toolkit
 
-Asp.NET Core MVC sample project: https://github.com/FabriDamazio/amplifier-mvcsample
+Asp.NET Core API sample project: https://github.com/FabriDamazio/amplifier-apisample
 
 #### Documentation under construction
 
