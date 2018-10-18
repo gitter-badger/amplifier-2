@@ -1,31 +1,37 @@
 ﻿using Amplifier.AspNetCore.Auditing;
 using Amplifier.AspNetCore.Authentication;
 using Amplifier.AspNetCore.MultiTenancy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Amplifier.EntityFrameworkCore
+namespace Amplifier.EntityFrameworkCore.Identity
 {
     /// <summary>
-    /// Base class for all DbContext classes.
+    /// Base class for the Entity Framework database context used for identity.
     /// </summary>
-    /// <typeparam name="TKey">Tenant Primary Key type</typeparam>
-    public class DbContextBase<TKey> : DbContext
+    /// <typeparam name="TUser">The type of user objects.</typeparam>
+    /// <typeparam name="TRole">The type of role objects.</typeparam>
+    /// <typeparam name="TKey">The type of the primary key for users and roles.</typeparam>
+    /// <typeparam name="TTenantKey">The type of the primary key for tenants.</typeparam>
+    public class IdentityDbContextBase<TTenantKey, TUser, TRole, TKey> :  IdentityDbContext<TUser, TRole, TKey>
+        where TUser : IdentityUser<TKey> where TRole : IdentityRole<TKey> where TKey : IEquatable<TKey>
     {
-        private readonly IUserSession<TKey> _userSession;
+        private readonly IUserSession<TTenantKey> _userSession;
 
         /// <summary>
         /// DbContextBase constructor.
         /// </summary>
         /// <param name="options"></param>
         /// <param name="userSession"></param>
-        public DbContextBase(DbContextOptions options, IUserSession<TKey> userSession) 
+        public IdentityDbContextBase(DbContextOptions options, IUserSession<TTenantKey> userSession)
             : base(options)
         {
             _userSession = userSession;
@@ -71,10 +77,10 @@ namespace Amplifier.EntityFrameworkCore
             }
         }
 
-        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(DbContextBase<TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(DbContextBase<TTenantKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteFilter");
 
-        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(DbContextBase<TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(DbContextBase<TTenantKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteAndTenantIdFilter");
 
         /// <summary>
@@ -96,7 +102,7 @@ namespace Amplifier.EntityFrameworkCore
         {
             builder.Entity<T>().HasQueryFilter(
                 item => !EF.Property<bool>(item, "IsDeleted") &&
-                        (_userSession.DisableTenantFilter || EqualityComparer<TKey>.Default.Equals(EF.Property<TKey>(item, "TenantId"), _userSession.TenantId)));
+                        (_userSession.DisableTenantFilter || EqualityComparer<TTenantKey>.Default.Equals(EF.Property<TTenantKey>(item, "TenantId"), _userSession.TenantId)));
         }
     }
 }
