@@ -77,10 +77,10 @@ namespace Amplifier.EntityFrameworkCore.Identity
             }
         }
 
-        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(DbContextBase<TTenantKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(IdentityDbContextBase<TTenantKey, TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteFilter");
 
-        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(DbContextBase<TTenantKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(IdentityDbContextBase<TTenantKey, TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteAndTenantIdFilter");
 
         /// <summary>
