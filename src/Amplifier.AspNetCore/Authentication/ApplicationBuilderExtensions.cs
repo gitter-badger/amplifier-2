@@ -15,20 +15,22 @@ namespace Amplifier.AspNetCore.Authentication
         /// <summary>
         /// Middleware to recover user token in every request header.
         /// </summary>
-        /// <typeparam name="TKey">Tenant primary key type</typeparam>
+        /// <typeparam name="TTenantKey">Tenant primary key type</typeparam>
+        /// <typeparam name="TUserKey">User primary key type</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UserUserSession<TKey>(
+        public static IApplicationBuilder UseUserSession<TTenantKey, TUserKey>(
             this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<UserSessioMiddleware<TKey>>();
+            return builder.UseMiddleware<UserSessioMiddleware<TTenantKey, TUserKey>>();
         }
 
         /// <summary>
         /// Middleware to recover user token in every request header.
         /// </summary>
-        /// <typeparam name="TKey">Nullable Tenant primary key type.</typeparam>
-        public class UserSessioMiddleware<TKey>
+        /// <typeparam name="TTenantKey">Nullable Tenant primary key type.</typeparam>
+        /// /// <typeparam name="TUserKey">User primary key type</typeparam>
+        public class UserSessioMiddleware<TTenantKey, TUserKey>
         {
             private readonly RequestDelegate _next;
 
@@ -47,12 +49,12 @@ namespace Amplifier.AspNetCore.Authentication
             /// <param name="context"></param>
             /// <param name="session"></param>
             /// <returns></returns>
-            public async Task InvokeAsync(HttpContext context, IUserSession<TKey> session)
+            public async Task InvokeAsync(HttpContext context, IUserSession<TTenantKey, TUserKey> session)
             {
                 if (context.User.Identities.Any(id => id.IsAuthenticated))
                 {
-                    session.UserId = context.User.Claims.FirstOrDefault(x => x.Type == "userid").Value;
-                    session.TenantId = ConvertTo<TKey>(context.User.Claims.FirstOrDefault(x => x.Type == "tenantid").Value);
+                    session.UserId = ConvertTo<TUserKey>(context.User.Claims.FirstOrDefault(x => x.Type == "userid").Value);
+                    session.TenantId = ConvertTo<TTenantKey>(context.User.Claims.FirstOrDefault(x => x.Type == "tenantid").Value);
                     session.Roles = context.User.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).ToList();
                     session.UserName = context.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
                 }

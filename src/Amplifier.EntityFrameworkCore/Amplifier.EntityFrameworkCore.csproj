@@ -4,11 +4,14 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.2.3</Version>
+    <Version>0.2.7</Version>
     <Authors>Fabri Damazio</Authors>
     <NeutralLanguage>English</NeutralLanguage>
     <PackageTags>amplifier, saas, ef, aspnet core, multi tenancy, entity framework, toolkit</PackageTags>
-    <PackageReleaseNotes>Add basic Identity support</PackageReleaseNotes>
+    <PackageReleaseNotes>Fix ApplicationBuilderExtensions name
+Fix RepositoryBase class name
+Add Generic type for Id property in UserSession
+</PackageReleaseNotes>
     <Description>Entity Framework Core implementation for Amplifier -  .NET Core SaaS Application Toolkit.</Description>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <Copyright />

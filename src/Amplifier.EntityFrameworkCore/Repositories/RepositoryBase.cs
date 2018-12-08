@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 namespace Amplifier.EntityFrameworkCore.Repositories
 {
     /// <summary>
-    /// Base class that implements <see cref="IRepositorioBase{TEntity, TKey}"/>
+    /// Base class that implements <see cref="IRepositoryBase{TEntity, TKey}"/>
     /// </summary>
     /// <typeparam name="TEntity">Entity type of this repository</typeparam>
     /// <typeparam name="TKey">Primary key of the Entity</typeparam>
-    public class RepositoryBase<TEntity, TKey> : IRepositorioBase<TEntity, TKey>
+    public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
     {
         /// <summary>
