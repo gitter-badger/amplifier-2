@@ -5,18 +5,19 @@ namespace Amplifier.AspNetCore.Authentication
     /// <summary>
     /// Interface that represents an user session.
     /// </summary>
-    /// <typeparam name="TKey">Nullable Tenant primary key type.</typeparam>
-    public interface IUserSession<TKey>
+    /// <typeparam name="TTenantKey">Tenant primary key type.</typeparam>
+    /// <typeparam name="TUserKey">User primary key type.</typeparam>
+    public interface IUserSession<TTenantKey, TUserKey>
     {
         /// <summary>
         /// Unique User identifier.
         /// </summary>
-        string UserId { get; set; }
+        TUserKey UserId { get; set; }
 
         /// <summary>
         /// Unique Tenant identifier.
         /// </summary>
-        TKey TenantId { get; set; }
+        TTenantKey TenantId { get; set; }
 
         /// <summary>
         /// List of user roles names.

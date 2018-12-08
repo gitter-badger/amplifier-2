@@ -12,7 +12,7 @@ namespace Amplifier.AspNetCore.Repositories
     /// </summary>
     /// <typeparam name="TEntity">Entity type of this repository</typeparam>
     /// <typeparam name="TKey">Primary key of the Entity</typeparam>
-    public interface IRepositorioBase<TEntity, TKey>
+    public interface IRepositoryBase<TEntity, TKey>
            where TEntity : class, IEntity<TKey>
     {
         /// <summary>
