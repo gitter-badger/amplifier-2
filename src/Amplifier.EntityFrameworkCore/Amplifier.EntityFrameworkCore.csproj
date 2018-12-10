@@ -4,12 +4,11 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <Authors>Fabri Damazio</Authors>
     <NeutralLanguage>English</NeutralLanguage>
     <PackageTags>amplifier, saas, ef, aspnet core, multi tenancy, entity framework, toolkit</PackageTags>
-    <PackageReleaseNotes>Change all TenantId properties to integer
-</PackageReleaseNotes>
+    <PackageReleaseNotes>Fix SaveChangesAsync recursive call error</PackageReleaseNotes>
     <Description>Entity Framework Core implementation for Amplifier -  .NET Core SaaS Application Toolkit.</Description>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <Copyright />
