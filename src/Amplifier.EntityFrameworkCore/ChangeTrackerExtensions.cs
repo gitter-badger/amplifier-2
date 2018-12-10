@@ -15,11 +15,10 @@ namespace Amplifier.EntityFrameworkCore
         /// <summary>
         /// Enable assignment of tenantid and audit properties automatically.
         /// <param name="changeTracker"></param>
-        /// <param name="userSession"></param>
-        /// <typeparam name="TTenantKey">Tenant primary key type</typeparam>
-        /// <typeparam name="TUserKey">USer primary key type</typeparam>
+        /// <param name="userSession"></param>        
+        /// <typeparam name="TKey">USer primary key type</typeparam>
         /// </summary>
-        public static void AutomaticTenantIdAndAuditing<TTenantKey, TUserKey>(this ChangeTracker changeTracker, IUserSession<TTenantKey, TUserKey> userSession)
+        public static void AutomaticTenantIdAndAuditing<TKey>(this ChangeTracker changeTracker, IUserSession<TKey> userSession)
         {
             changeTracker.DetectChanges();
 

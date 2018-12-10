@@ -6,8 +6,7 @@ namespace Amplifier.AspNetCore.MultiTenancy
     /// <summary>
     /// Tenant base class.
     /// </summary>
-    /// <typeparam name="TKey">Primary key of Tenant entity</typeparam>
-    public class TenantBase<TKey> : IEntity<TKey>
+    public class TenantBase : IEntity<int>
     {
         /// <summary>
         /// Max length of the <see cref="Name"/> property.
@@ -37,7 +36,7 @@ namespace Amplifier.AspNetCore.MultiTenancy
         /// <summary>
         /// Tenant unique identifier.
         /// </summary>
-        public TKey Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Tenant unique name.

@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.2.7</Version>
+    <Version>0.3.0</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Fabri Damazio</Authors>
     <Description>.NET Core SaaS Application Toolkit.</Description>
@@ -12,10 +12,8 @@
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/FabriDamazio/amplifier</PackageProjectUrl>
     <RepositoryUrl>https://github.com/FabriDamazio/amplifier</RepositoryUrl>
-    <PackageReleaseNotes>Fix ApplicationBuilderExtensions name
-Fix RepositoryBase class name
-Add Generic type for Id property in UserSession
-</PackageReleaseNotes>
+    <PackageReleaseNotes>Change all TenantId properties to integer</PackageReleaseNotes>
+    <AssemblyVersion>0.3.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

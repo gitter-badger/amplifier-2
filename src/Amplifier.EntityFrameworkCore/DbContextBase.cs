@@ -14,19 +14,18 @@ namespace Amplifier.EntityFrameworkCore
 {
     /// <summary>
     /// Base class for all DbContext classes.
-    /// </summary>
-    /// <typeparam name="TTenantKey">Tenant Primary Key type</typeparam>
-    /// <typeparam name="TUserKey">User Primary Key type</typeparam>
-    public class DbContextBase<TTenantKey, TUserKey> : DbContext
+    /// </summary>   
+    /// <typeparam name="TKey">User Primary Key type</typeparam>
+    public class DbContextBase<TKey> : DbContext
     {
-        private readonly IUserSession<TTenantKey, TUserKey> _userSession;
+        private readonly IUserSession<TKey> _userSession;
 
         /// <summary>
         /// DbContextBase constructor.
         /// </summary>
         /// <param name="options"></param>
         /// <param name="userSession"></param>
-        public DbContextBase(DbContextOptions options, IUserSession<TTenantKey, TUserKey> userSession) 
+        public DbContextBase(DbContextOptions options, IUserSession<TKey> userSession) 
             : base(options)
         {
             _userSession = userSession;
@@ -72,10 +71,10 @@ namespace Amplifier.EntityFrameworkCore
             }
         }
 
-        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(DbContextBase<TTenantKey, TUserKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(DbContextBase<TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteFilter");
 
-        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(DbContextBase<TTenantKey, TUserKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(DbContextBase<TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteAndTenantIdFilter");
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace Amplifier.EntityFrameworkCore
         {
             builder.Entity<T>().HasQueryFilter(
                 item => !EF.Property<bool>(item, "IsDeleted") &&
-                        (_userSession.DisableTenantFilter || EqualityComparer<TTenantKey>.Default.Equals(EF.Property<TTenantKey>(item, "TenantId"), _userSession.TenantId)));
+                        (_userSession.DisableTenantFilter || EF.Property<int?>(item, "TenantId") == _userSession.TenantId));
         }
     }
 }

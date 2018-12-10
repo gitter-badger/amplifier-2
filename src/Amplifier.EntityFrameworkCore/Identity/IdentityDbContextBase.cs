@@ -19,20 +19,19 @@ namespace Amplifier.EntityFrameworkCore.Identity
     /// </summary>
     /// <typeparam name="TUser">The type of user objects.</typeparam>
     /// <typeparam name="TRole">The type of role objects.</typeparam>
-    /// <typeparam name="TKey">The type of the primary key for users and roles.</typeparam>
-    /// <typeparam name="TTenantKey">The type of the primary key for tenants.</typeparam>
+    /// <typeparam name="TKey">The type of the primary key for users and roles.</typeparam>    
     /// <typeparam name="TUserKey">The type of the primary key for users.</typeparam>
-    public class IdentityDbContextBase<TTenantKey, TUserKey, TUser, TRole, TKey> :  IdentityDbContext<TUser, TRole, TKey>
+    public class IdentityDbContextBase< TUserKey, TUser, TRole, TKey> :  IdentityDbContext<TUser, TRole, TKey>
         where TUser : IdentityUser<TKey> where TRole : IdentityRole<TKey> where TKey : IEquatable<TKey>
     {
-        private readonly IUserSession<TTenantKey, TUserKey> _userSession;
+        private readonly IUserSession<TUserKey> _userSession;
 
         /// <summary>
         /// DbContextBase constructor.
         /// </summary>
         /// <param name="options"></param>
         /// <param name="userSession"></param>
-        public IdentityDbContextBase(DbContextOptions options, IUserSession<TTenantKey, TUserKey> userSession)
+        public IdentityDbContextBase(DbContextOptions options, IUserSession<TUserKey> userSession)
             : base(options)
         {
             _userSession = userSession;
@@ -78,10 +77,10 @@ namespace Amplifier.EntityFrameworkCore.Identity
             }
         }
 
-        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(IdentityDbContextBase<TTenantKey, TUserKey, TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(IdentityDbContextBase<TUserKey, TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteFilter");
 
-        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(IdentityDbContextBase<TTenantKey, TUserKey, TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(IdentityDbContextBase<TUserKey, TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteAndTenantIdFilter");
 
         /// <summary>
@@ -103,7 +102,7 @@ namespace Amplifier.EntityFrameworkCore.Identity
         {
             builder.Entity<T>().HasQueryFilter(
                 item => !EF.Property<bool>(item, "IsDeleted") &&
-                        (_userSession.DisableTenantFilter || EqualityComparer<TTenantKey>.Default.Equals(EF.Property<TTenantKey>(item, "TenantId"), _userSession.TenantId)));
+                        (_userSession.DisableTenantFilter || EF.Property<int?>(item, "TenantId") == _userSession.TenantId));
         }
     }
 }
