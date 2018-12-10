@@ -42,10 +42,10 @@ namespace Amplifier.EntityFrameworkCore.Identity
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public new async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             ChangeTracker.AutomaticTenantIdAndAuditing(_userSession);
-            return await SaveChangesAsync(cancellationToken);
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         /// <summary>
