@@ -4,11 +4,11 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.3.2</Version>
+    <Version>0.3.3</Version>
     <Authors>Fabri Damazio</Authors>
     <NeutralLanguage>English</NeutralLanguage>
     <PackageTags>amplifier, saas, ef, aspnet core, multi tenancy, entity framework, toolkit</PackageTags>
-    <PackageReleaseNotes>Fix SaveChangesAsync error</PackageReleaseNotes>
+    <PackageReleaseNotes>Change User related shadow properties to string type</PackageReleaseNotes>
     <Description>Entity Framework Core implementation for Amplifier -  .NET Core SaaS Application Toolkit.</Description>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <Copyright />
