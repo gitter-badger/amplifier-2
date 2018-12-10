@@ -61,10 +61,11 @@ namespace Amplifier.EntityFrameworkCore
         /// <summary>
         /// Add auditing shadow property to entities that implements ISoftDelete and IFullAuditedEntity interfaces
         /// </summary>
-        /// <typeparam name="TUser">Entity that represents an User</typeparam>        
+        /// <typeparam name="TUser">Entity that represents an User</typeparam>
+        /// <typeparam name="TKey">User primary key type</typeparam>
         /// <param name="modelBuilder"></param>
         /// <param name="entities">A list with all entities</param>
-        public static void Auditing<TUser>(this ModelBuilder modelBuilder, List<IMutableEntityType> entities) where TUser : class
+        public static void Auditing<TUser, TKey>(this ModelBuilder modelBuilder, List<IMutableEntityType> entities) where TUser : class
         {
             foreach (var entityType in entities)
             {
@@ -78,7 +79,7 @@ namespace Amplifier.EntityFrameworkCore
 
                 if (typeof(IFullAuditedEntity).IsAssignableFrom(type))
                 {
-                    var method = SetFullAuditingShadowPropertyPropertyMethodInfo.MakeGenericMethod(type, typeof(TUser));
+                    var method = SetFullAuditingShadowPropertyPropertyMethodInfo.MakeGenericMethod(type, typeof(TUser), typeof(TKey));
                     method.Invoke(modelBuilder, new object[] { modelBuilder });
                 }
             }
@@ -95,14 +96,14 @@ namespace Amplifier.EntityFrameworkCore
             builder.Entity<T>().Property<bool>("IsDeleted");
         }
 
-        public static void SetFullAuditingShadowProperty<T, TUser>(ModelBuilder builder) where T : class, IFullAuditedEntity where TUser : class
+        public static void SetFullAuditingShadowProperty<T, TUser, TKey>(ModelBuilder builder) where T : class, IFullAuditedEntity where TUser : class
         {
             builder.Entity<T>().Property<DateTime>("CreationTime");
             builder.Entity<T>().Property<DateTime>("LastModificationTime");
             builder.Entity<T>().Property<DateTime>("DeletionTime");
-            builder.Entity<T>().Property<string>("CreationUser");
-            builder.Entity<T>().Property<string>("LastModificationUser");
-            builder.Entity<T>().Property<string>("DeletionUser");
+            builder.Entity<T>().Property<TKey>("CreationUser");
+            builder.Entity<T>().Property<TKey>("LastModificationUser");
+            builder.Entity<T>().Property<TKey>("DeletionUser");
 
             builder.Entity<T>().HasOne<TUser>().WithMany().HasForeignKey("CreationUser").OnDelete(DeleteBehavior.Restrict);
             builder.Entity<T>().HasOne<TUser>().WithMany().HasForeignKey("LastModificationUser").OnDelete(DeleteBehavior.Restrict);
