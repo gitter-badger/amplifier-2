@@ -4,15 +4,15 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.3.4</Version>
+    <Version>0.3.5</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Fabri Damazio</Authors>
-    <Description>.NET Core SaaS Application Toolkit.</Description>
+    <Description>Fix null tenantId error</Description>
     <PackageTags>amplifier, saas, ef, aspnet core, multi tenancy, toolkit</PackageTags>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/FabriDamazio/amplifier</PackageProjectUrl>
     <RepositoryUrl>https://github.com/FabriDamazio/amplifier</RepositoryUrl>
-    <PackageReleaseNotes>Revert User related shadow properties to generic type</PackageReleaseNotes>
+    <PackageReleaseNotes>Remove unnecessary generic param</PackageReleaseNotes>
     <AssemblyVersion>0.3.4.0</AssemblyVersion>
   </PropertyGroup>
 

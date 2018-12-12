@@ -52,7 +52,7 @@ namespace Amplifier.AspNetCore.Authentication
                 if (context.User.Identities.Any(id => id.IsAuthenticated))
                 {
                     session.UserId = ConvertTo<TKey>(context.User.Claims.FirstOrDefault(x => x.Type == "userid").Value);
-                    session.TenantId = ConvertTo<int?>(context.User.Claims.FirstOrDefault(x => x.Type == "tenantid").Value);
+                    session.TenantId = ToNullableInt(context.User.Claims.FirstOrDefault(x => x.Type == "tenantid").Value);
                     session.Roles = context.User.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).ToList();
                     session.UserName = context.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
                 }
@@ -78,6 +78,12 @@ namespace Amplifier.AspNetCore.Authentication
             {
                 return default(T);
             }
+        }
+
+        private static int? ToNullableInt(this string s)
+        {
+            if (int.TryParse(s, out int i)) return i;
+            return null;
         }
     }
 }

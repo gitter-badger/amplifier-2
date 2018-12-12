@@ -19,19 +19,18 @@ namespace Amplifier.EntityFrameworkCore.Identity
     /// </summary>
     /// <typeparam name="TUser">The type of user objects.</typeparam>
     /// <typeparam name="TRole">The type of role objects.</typeparam>
-    /// <typeparam name="TKey">The type of the primary key for users and roles.</typeparam>    
-    /// <typeparam name="TUserKey">The type of the primary key for users.</typeparam>
-    public class IdentityDbContextBase< TUserKey, TUser, TRole, TKey> :  IdentityDbContext<TUser, TRole, TKey>
+    /// <typeparam name="TKey">The type of the primary key for users and roles.</typeparam>
+    public class IdentityDbContextBase<TUser, TRole, TKey> :  IdentityDbContext<TUser, TRole, TKey>
         where TUser : IdentityUser<TKey> where TRole : IdentityRole<TKey> where TKey : IEquatable<TKey>
     {
-        private readonly IUserSession<TUserKey> _userSession;
+        private readonly IUserSession<TKey> _userSession;
 
         /// <summary>
         /// DbContextBase constructor.
         /// </summary>
         /// <param name="options"></param>
         /// <param name="userSession"></param>
-        public IdentityDbContextBase(DbContextOptions options, IUserSession<TUserKey> userSession)
+        public IdentityDbContextBase(DbContextOptions options, IUserSession<TKey> userSession)
             : base(options)
         {
             _userSession = userSession;
@@ -77,10 +76,10 @@ namespace Amplifier.EntityFrameworkCore.Identity
             }
         }
 
-        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(IdentityDbContextBase<TUserKey, TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteFilterMethodInfo = typeof(IdentityDbContextBase<TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteFilter");
 
-        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(IdentityDbContextBase<TUserKey, TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo SetSoftDeleteAndTenantIdFilterMethodInfo = typeof(IdentityDbContextBase<TUser, TRole, TKey>).GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteAndTenantIdFilter");
 
         /// <summary>

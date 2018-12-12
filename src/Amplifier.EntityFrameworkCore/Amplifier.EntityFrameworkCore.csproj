@@ -4,11 +4,11 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.3.4</Version>
+    <Version>0.3.5</Version>
     <Authors>Fabri Damazio</Authors>
     <NeutralLanguage>English</NeutralLanguage>
     <PackageTags>amplifier, saas, ef, aspnet core, multi tenancy, entity framework, toolkit</PackageTags>
-    <PackageReleaseNotes>Revert User related shadow properties to generic type</PackageReleaseNotes>
+    <PackageReleaseNotes>Remove unnecessary generic param</PackageReleaseNotes>
     <Description>Entity Framework Core implementation for Amplifier -  .NET Core SaaS Application Toolkit.</Description>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <Copyright />
