@@ -4,16 +4,16 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.4.0</Version>
+    <Version>0.5.0</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Fabri Damazio</Authors>
-    <Description>Fix null tenantId error</Description>
+    <Description>.NET Core SaaS Application Toolkit.</Description>
     <PackageTags>amplifier, saas, ef, aspnet core, multi tenancy, toolkit</PackageTags>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/FabriDamazio/amplifier</PackageProjectUrl>
     <RepositoryUrl>https://github.com/FabriDamazio/amplifier</RepositoryUrl>
-    <PackageReleaseNotes>Move to .NET Core 2.2</PackageReleaseNotes>
-    <AssemblyVersion>0.4.0.0</AssemblyVersion>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <AssemblyVersion>0.5.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -13,6 +13,18 @@ namespace Amplifier.AspNetCore.Authentication
     public static class ApplicationBuilderExtensions
     {
         /// <summary>
+        /// Add Amplifier middlewares.
+        /// </summary>        
+        /// <typeparam name="TKey">User primary key type</typeparam>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseAmplifier<TKey>(
+            this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<UserSessioMiddleware<TKey>>();
+        }
+
+        /// <summary>
         /// Middleware to recover user token in every request header.
         /// </summary>        
         /// <typeparam name="TKey">User primary key type</typeparam>
@@ -22,7 +34,7 @@ namespace Amplifier.AspNetCore.Authentication
             this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<UserSessioMiddleware<TKey>>();
-        }
+        }        
 
         /// <summary>
         /// Middleware to recover user token in every request header.
